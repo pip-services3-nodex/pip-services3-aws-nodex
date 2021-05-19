@@ -1,3 +1,4 @@
+/** @module clients */
 import { IOpenable } from 'pip-services3-commons-nodex';
 import { IConfigurable } from 'pip-services3-commons-nodex';
 import { IReferenceable } from 'pip-services3-commons-nodex';
@@ -7,7 +8,8 @@ import { DependencyResolver } from 'pip-services3-commons-nodex';
 import { CompositeLogger } from 'pip-services3-components-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
 import { CounterTiming } from 'pip-services3-components-nodex';
-import { AwsConnectionParams, AwsConnectionResolver } from '../connect';
+import { AwsConnectionParams } from '../connect/AwsConnectionParams';
+import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
 /**
  * Abstract client that calls AWS Lambda Functions.
  *

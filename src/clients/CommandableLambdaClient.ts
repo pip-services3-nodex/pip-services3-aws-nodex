@@ -74,7 +74,6 @@ export class CommandableLambdaClient extends LambdaClient {
      * @return {any}            action result.
      */
     public async callCommand(cmd: string, correlationId: string, params: any): Promise<any> {
-        
         const timing = this.instrument(correlationId, this._name + '.' + cmd);
         try {
             const result = await this.call(cmd, correlationId, params);

@@ -2,8 +2,8 @@
 import { Factory } from 'pip-services3-components-nodex';
 import { Descriptor } from 'pip-services3-commons-nodex';
 
-import { CloudWatchLogger } from '../log';
-import { CloudWatchCounters } from '../count';
+import { CloudWatchLogger } from '../log/CloudWatchLogger';
+import { CloudWatchCounters } from '../count/CloudWatchCounters';
 
 /**
  * Creates AWS components by their descriptors.

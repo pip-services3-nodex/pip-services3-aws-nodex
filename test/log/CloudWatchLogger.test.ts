@@ -3,7 +3,7 @@ import { References } from 'pip-services3-commons-nodex';
 import { ContextInfo } from 'pip-services3-components-nodex';
 import { Descriptor } from 'pip-services3-commons-nodex';
 
-import { CloudWatchLogger } from '../../src';
+import { CloudWatchLogger } from '../../src/log/CloudWatchLogger';
 import { LoggerFixture } from './LoggerFixture';
 
 suite('CloudWatchLogger', ()=> {
@@ -14,8 +14,9 @@ suite('CloudWatchLogger', ()=> {
     let AWS_ACCESS_ID = process.env["AWS_ACCESS_ID"] || "";
     let AWS_ACCESS_KEY = process.env["AWS_ACCESS_KEY"] || "";
 
-    if (!AWS_REGION || !AWS_ACCESS_ID || !AWS_ACCESS_KEY)
+    if (!AWS_REGION || !AWS_ACCESS_ID || !AWS_ACCESS_KEY) {
         return;
+    }
 
     setup(async () => {
 

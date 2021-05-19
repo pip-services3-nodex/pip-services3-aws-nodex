@@ -1,19 +1,17 @@
-/** @module container */
-/** @hidden */ 
-let _ = require('lodash');
+/** @module containers */
 /** @hidden */ 
 let process = require('process');
 
-import {
-    BadRequestException,
-    ConfigParams,
-    DependencyResolver,
-    IReferences,
-    Schema,
-    UnknownException
-} from 'pip-services3-commons-nodex';
-import {Container} from 'pip-services3-container-nodex';
-import {CompositeCounters, ConsoleLogger, CounterTiming} from 'pip-services3-components-nodex';
+import { BadRequestException } from 'pip-services3-commons-nodex';
+import { ConfigParams } from 'pip-services3-commons-nodex';
+import { DependencyResolver } from 'pip-services3-commons-nodex';
+import { IReferences } from 'pip-services3-commons-nodex';
+import { Schema } from 'pip-services3-commons-nodex';
+import { UnknownException } from 'pip-services3-commons-nodex';
+import { Container } from 'pip-services3-container-nodex';
+import { CompositeCounters } from 'pip-services3-components-nodex';
+import { ConsoleLogger } from 'pip-services3-components-nodex';
+import { CounterTiming } from 'pip-services3-components-nodex';
 
 /**
  * Abstract AWS Lambda function, that acts as a container to instantiate and run components
@@ -205,17 +203,20 @@ export abstract class LambdaFunction extends Container {
      */
     protected registerAction(cmd: string, schema: Schema, 
         action: (params: any) => Promise<any>): void {
-        if (cmd == '')
+        if (cmd == '') {
             throw new UnknownException(null, 'NO_COMMAND', 'Missing command');
+        }
 
-        if (action == null)
+        if (action == null) {
             throw new UnknownException(null, 'NO_ACTION', 'Missing action');
+        }
 
-        if (!_.isFunction(action))
+        if (typeof action != "function") {
             throw new UnknownException(null, 'ACTION_NOT_FUNCTION', 'Action is not a function');
+        }
 
         // Hack!!! Wrapping action to preserve prototyping context
-        const actionCurl = (params): Promise<any> => {
+        const actionCurl = (params) => {
             // Perform validation
             if (schema != null) {
                 let correlationId = params.correlaton_id;

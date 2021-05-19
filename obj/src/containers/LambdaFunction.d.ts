@@ -1,6 +1,9 @@
-import { DependencyResolver, IReferences, Schema } from 'pip-services3-commons-nodex';
+import { DependencyResolver } from 'pip-services3-commons-nodex';
+import { IReferences } from 'pip-services3-commons-nodex';
+import { Schema } from 'pip-services3-commons-nodex';
 import { Container } from 'pip-services3-container-nodex';
-import { CompositeCounters, CounterTiming } from 'pip-services3-components-nodex';
+import { CompositeCounters } from 'pip-services3-components-nodex';
+import { CounterTiming } from 'pip-services3-components-nodex';
 /**
  * Abstract AWS Lambda function, that acts as a container to instantiate and run components
  * and expose them via external entry point.

@@ -1,7 +1,4 @@
 /** @module clients */
-/** @hidden */
-let _ = require('lodash');
-
 import { IOpenable } from 'pip-services3-commons-nodex';
 import { IConfigurable } from 'pip-services3-commons-nodex';
 import { IReferenceable } from 'pip-services3-commons-nodex';
@@ -14,10 +11,12 @@ import { DependencyResolver } from 'pip-services3-commons-nodex';
 import { CompositeLogger } from 'pip-services3-components-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
 import { CounterTiming } from 'pip-services3-components-nodex';
-import { Lambda, config } from 'aws-sdk';
 
-import { AwsConnectionParams, AwsConnectionResolver } from '../connect';
+import { Lambda } from 'aws-sdk';
+import { config } from 'aws-sdk';
 
+import { AwsConnectionParams } from '../connect/AwsConnectionParams';
+import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
 
 /**
  * Abstract client that calls AWS Lambda Functions.
@@ -202,12 +201,11 @@ export abstract class LambdaClient implements IOpenable, IConfigurable, IReferen
      * @return {any}            action result.
      */
     protected async invoke(invocationType: string, cmd: string, correlationId: string, args: any): Promise<any> {
-
         if (cmd == null) {
             throw new UnknownException(null, 'NO_COMMAND', 'Missing Seneca pattern cmd');
         }
 
-        args = _.clone(args);
+        args = Object.assign({}, args);
         args.cmd = cmd;
         args.correlation_id = correlationId || IdGenerator.nextShort();
 
@@ -223,7 +221,7 @@ export abstract class LambdaClient implements IOpenable, IConfigurable, IReferen
 
             let result: any = data.Payload;
 
-            if (_.isString(result)) {
+            if (typeof result === "string") {
                 try {
                     result = JSON.parse(result);
                 } catch (err) {

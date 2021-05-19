@@ -1,5 +1,4 @@
 /** @module count */
-/** @hidden */
 import { IReferenceable } from 'pip-services3-commons-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
 import { IOpenable } from 'pip-services3-commons-nodex';

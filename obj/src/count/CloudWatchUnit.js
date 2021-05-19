@@ -1,7 +1,7 @@
 "use strict";
+/** @module count */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudWatchUnit = void 0;
-/** @module count */
 /**
  * Constants that determine cloud watch units.
  */

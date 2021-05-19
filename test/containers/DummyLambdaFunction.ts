@@ -1,6 +1,5 @@
-let _ = require('lodash');
-
-import {DataPage, Descriptor} from 'pip-services3-commons-nodex';
+import { DataPage } from 'pip-services3-commons-nodex';
+import { Descriptor } from 'pip-services3-commons-nodex';
 import { FilterParams } from 'pip-services3-commons-nodex';
 import { PagingParams} from 'pip-services3-commons-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
@@ -9,11 +8,11 @@ import { TypeCode } from 'pip-services3-commons-nodex';
 import { FilterParamsSchema } from 'pip-services3-commons-nodex';
 import { PagingParamsSchema } from 'pip-services3-commons-nodex';
 
-import { LambdaFunction } from '../../src';
+import { LambdaFunction } from '../../src/containers/LambdaFunction';
 import { IDummyController } from '../IDummyController';
 import { DummyFactory } from '../DummyFactory';
 import { DummySchema } from '../DummySchema';
-import {Dummy} from "../Dummy";
+import { Dummy } from "../Dummy";
 
 export class DummyLambdaFunction extends LambdaFunction {
     private _controller: IDummyController;

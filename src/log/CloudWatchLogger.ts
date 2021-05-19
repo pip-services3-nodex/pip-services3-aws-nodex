@@ -1,5 +1,4 @@
 /** @module log */
-/** @hidden */
 import { IReferenceable } from 'pip-services3-commons-nodex';
 import { LogLevel } from 'pip-services3-components-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
@@ -8,12 +7,15 @@ import { CachedLogger } from 'pip-services3-components-nodex';
 import { LogMessage } from 'pip-services3-components-nodex';
 import { ConfigException } from 'pip-services3-commons-nodex';
 import { ConfigParams } from 'pip-services3-commons-nodex';
-import { AwsConnectionResolver } from '../connect';
-import { AwsConnectionParams } from '../connect';
 import { CompositeLogger } from 'pip-services3-components-nodex';
 import { ContextInfo } from 'pip-services3-components-nodex';
 import { Descriptor } from 'pip-services3-commons-nodex'
-import { CloudWatchLogs, config } from 'aws-sdk';
+
+import { CloudWatchLogs } from 'aws-sdk';
+import { config } from 'aws-sdk';
+
+import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
+import { AwsConnectionParams } from '../connect/AwsConnectionParams';
 
 /**
  * Logger that writes log messages to AWS Cloud Watch Log.
@@ -179,7 +181,6 @@ export class CloudWatchLogger extends CachedLogger implements IReferenceable, IO
             }
         }
 
-
         try {
             await this.createLogStream({
                 logGroupName: this._group,
@@ -211,6 +212,7 @@ export class CloudWatchLogger extends CachedLogger implements IReferenceable, IO
 	 */
     public async close(correlationId: string): Promise<void> {
         await this.save(this._cache);
+        
         if (this._timer) {
             clearInterval(this._timer);
         }

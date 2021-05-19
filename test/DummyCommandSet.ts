@@ -1,12 +1,11 @@
-import {CommandSet, DataPage} from 'pip-services3-commons-nodex';
+import { DataPage } from 'pip-services3-commons-nodex';
+import { CommandSet } from 'pip-services3-commons-nodex';
 import { ICommand } from 'pip-services3-commons-nodex';
 import { Command } from 'pip-services3-commons-nodex';
 import { Parameters } from 'pip-services3-commons-nodex';
 import { FilterParams } from 'pip-services3-commons-nodex';
 import { PagingParams } from 'pip-services3-commons-nodex';
 import { ObjectSchema } from 'pip-services3-commons-nodex';
-import { Schema} from 'pip-services3-commons-nodex';
-import { MapSchema } from 'pip-services3-commons-nodex';
 import { TypeCode } from 'pip-services3-commons-nodex';
 import { FilterParamsSchema } from 'pip-services3-commons-nodex';
 import { PagingParamsSchema } from 'pip-services3-commons-nodex';

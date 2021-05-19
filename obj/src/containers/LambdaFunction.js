@@ -10,14 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LambdaFunction = void 0;
-/** @module container */
-/** @hidden */
-let _ = require('lodash');
+/** @module containers */
 /** @hidden */
 let process = require('process');
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
+const pip_services3_commons_nodex_2 = require("pip-services3-commons-nodex");
+const pip_services3_commons_nodex_3 = require("pip-services3-commons-nodex");
+const pip_services3_commons_nodex_4 = require("pip-services3-commons-nodex");
 const pip_services3_container_nodex_1 = require("pip-services3-container-nodex");
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
+const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
 /**
  * Abstract AWS Lambda function, that acts as a container to instantiate and run components
  * and expose them via external entry point.
@@ -98,7 +100,7 @@ class LambdaFunction extends pip_services3_container_nodex_1.Container {
         /**
          * The dependency resolver.
          */
-        this._dependencyResolver = new pip_services3_commons_nodex_1.DependencyResolver();
+        this._dependencyResolver = new pip_services3_commons_nodex_3.DependencyResolver();
         /**
          * The map of registred validation schemas.
          */
@@ -111,13 +113,13 @@ class LambdaFunction extends pip_services3_container_nodex_1.Container {
          * The default path to config file.
          */
         this._configPath = './config/config.yml';
-        this._logger = new pip_services3_components_nodex_1.ConsoleLogger();
+        this._logger = new pip_services3_components_nodex_2.ConsoleLogger();
     }
     getConfigPath() {
         return process.env.CONFIG_PATH || this._configPath;
     }
     getParameters() {
-        return pip_services3_commons_nodex_1.ConfigParams.fromValue(process.env);
+        return pip_services3_commons_nodex_2.ConfigParams.fromValue(process.env);
     }
     captureErrors(correlationId) {
         // Log uncaught exceptions
@@ -186,12 +188,15 @@ class LambdaFunction extends pip_services3_container_nodex_1.Container {
      * @param action        an action function that is called when action is invoked.
      */
     registerAction(cmd, schema, action) {
-        if (cmd == '')
-            throw new pip_services3_commons_nodex_1.UnknownException(null, 'NO_COMMAND', 'Missing command');
-        if (action == null)
-            throw new pip_services3_commons_nodex_1.UnknownException(null, 'NO_ACTION', 'Missing action');
-        if (!_.isFunction(action))
-            throw new pip_services3_commons_nodex_1.UnknownException(null, 'ACTION_NOT_FUNCTION', 'Action is not a function');
+        if (cmd == '') {
+            throw new pip_services3_commons_nodex_4.UnknownException(null, 'NO_COMMAND', 'Missing command');
+        }
+        if (action == null) {
+            throw new pip_services3_commons_nodex_4.UnknownException(null, 'NO_ACTION', 'Missing action');
+        }
+        if (typeof action != "function") {
+            throw new pip_services3_commons_nodex_4.UnknownException(null, 'ACTION_NOT_FUNCTION', 'Action is not a function');
+        }
         // Hack!!! Wrapping action to preserve prototyping context
         const actionCurl = (params) => {
             // Perform validation

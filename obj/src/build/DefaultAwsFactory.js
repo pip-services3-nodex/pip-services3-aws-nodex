@@ -4,8 +4,8 @@ exports.DefaultAwsFactory = void 0;
 /** @module build */
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
-const log_1 = require("../log");
-const count_1 = require("../count");
+const CloudWatchLogger_1 = require("../log/CloudWatchLogger");
+const CloudWatchCounters_1 = require("../count/CloudWatchCounters");
 /**
  * Creates AWS components by their descriptors.
  *
@@ -18,8 +18,8 @@ class DefaultAwsFactory extends pip_services3_components_nodex_1.Factory {
      */
     constructor() {
         super();
-        this.registerAsType(DefaultAwsFactory.CloudWatchLoggerDescriptor, log_1.CloudWatchLogger);
-        this.registerAsType(DefaultAwsFactory.CloudWatchCountersDescriptor, count_1.CloudWatchCounters);
+        this.registerAsType(DefaultAwsFactory.CloudWatchLoggerDescriptor, CloudWatchLogger_1.CloudWatchLogger);
+        this.registerAsType(DefaultAwsFactory.CloudWatchCountersDescriptor, CloudWatchCounters_1.CloudWatchCounters);
     }
 }
 exports.DefaultAwsFactory = DefaultAwsFactory;

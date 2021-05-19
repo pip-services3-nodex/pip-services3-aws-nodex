@@ -1,4 +1,4 @@
-/** @module container */
+/** @module containers */
 import { ICommandable } from 'pip-services3-commons-nodex';
 import { CommandSet } from 'pip-services3-commons-nodex';
 import { Parameters } from 'pip-services3-commons-nodex';

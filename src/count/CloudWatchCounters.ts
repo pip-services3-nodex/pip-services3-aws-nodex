@@ -1,19 +1,20 @@
 /** @module count */
-/** @hidden */
-
 import { IReferenceable } from 'pip-services3-commons-nodex';
 import { CounterType } from 'pip-services3-components-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
 import { IOpenable } from 'pip-services3-commons-nodex';
 import { CachedCounters, Counter } from 'pip-services3-components-nodex';
 import { ConfigParams } from 'pip-services3-commons-nodex';
-import { AwsConnectionResolver } from '../connect';
-import { AwsConnectionParams } from '../connect';
 import { CompositeLogger } from 'pip-services3-components-nodex';
 import { ContextInfo } from 'pip-services3-components-nodex';
 import { Descriptor } from 'pip-services3-commons-nodex';
+
+import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
+import { AwsConnectionParams } from '../connect/AwsConnectionParams';
 import { CloudWatchUnit } from './CloudWatchUnit';
-import { CloudWatch, config } from 'aws-sdk';
+
+import { CloudWatch } from 'aws-sdk';
+import { config } from 'aws-sdk';
 
 /**
  * Performance counters that periodically dumps counters to AWS Cloud Watch Metrics.

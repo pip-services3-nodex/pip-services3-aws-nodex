@@ -4,13 +4,14 @@ import { ConfigParams } from 'pip-services3-commons-nodex';
 import { DummyClientFixture } from '../DummyClientFixture';
 import { DummyCommandableLambdaClient } from './DummyCommandableLambdaClient';
 
-let awsAccessId = process.env['AWS_ACCESS_ID'];
-let awsAccessKey = process.env['AWS_ACCESS_KEY'];
-let lambdaArn = process.env['LAMBDA_ARN'];
-
 suite('DummyCommandableLambdaClient', ()=> {
-    if (!awsAccessId || !awsAccessKey || !lambdaArn)
+    let awsAccessId = process.env['AWS_ACCESS_ID'];
+    let awsAccessKey = process.env['AWS_ACCESS_KEY'];
+    let lambdaArn = process.env['LAMBDA_ARN'];
+    
+    if (!awsAccessId || !awsAccessKey || !lambdaArn) {
         return;
+    }
 
     let lambdaConfig = ConfigParams.fromTuples(
         'connection.protocol', 'aws',

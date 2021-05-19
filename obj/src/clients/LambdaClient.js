@@ -10,9 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LambdaClient = void 0;
-/** @module clients */
-/** @hidden */
-let _ = require('lodash');
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
 const pip_services3_commons_nodex_2 = require("pip-services3-commons-nodex");
 const pip_services3_commons_nodex_3 = require("pip-services3-commons-nodex");
@@ -20,7 +17,8 @@ const pip_services3_commons_nodex_4 = require("pip-services3-commons-nodex");
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
 const aws_sdk_1 = require("aws-sdk");
-const connect_1 = require("../connect");
+const aws_sdk_2 = require("aws-sdk");
+const AwsConnectionResolver_1 = require("../connect/AwsConnectionResolver");
 /**
  * Abstract client that calls AWS Lambda Functions.
  *
@@ -88,7 +86,7 @@ class LambdaClient {
         /**
          * The connection resolver.
          */
-        this._connectionResolver = new connect_1.AwsConnectionResolver();
+        this._connectionResolver = new AwsConnectionResolver_1.AwsConnectionResolver();
         /**
          * The logger.
          */
@@ -151,12 +149,12 @@ class LambdaClient {
                 return;
             }
             this._connection = yield this._connectionResolver.resolve(correlationId);
-            aws_sdk_1.config.update({
+            aws_sdk_2.config.update({
                 accessKeyId: this._connection.getAccessId(),
                 secretAccessKey: this._connection.getAccessKey(),
                 region: this._connection.getRegion()
             });
-            aws_sdk_1.config.httpOptions = {
+            aws_sdk_2.config.httpOptions = {
                 timeout: this._connectTimeout
             };
             this._lambda = new aws_sdk_1.Lambda();
@@ -192,7 +190,7 @@ class LambdaClient {
             if (cmd == null) {
                 throw new pip_services3_commons_nodex_2.UnknownException(null, 'NO_COMMAND', 'Missing Seneca pattern cmd');
             }
-            args = _.clone(args);
+            args = Object.assign({}, args);
             args.cmd = cmd;
             args.correlation_id = correlationId || pip_services3_commons_nodex_1.IdGenerator.nextShort();
             let params = {
@@ -204,7 +202,7 @@ class LambdaClient {
             try {
                 const data = yield this._lambda.invokeAsync(params);
                 let result = data.Payload;
-                if (_.isString(result)) {
+                if (typeof result === "string") {
                     try {
                         result = JSON.parse(result);
                     }

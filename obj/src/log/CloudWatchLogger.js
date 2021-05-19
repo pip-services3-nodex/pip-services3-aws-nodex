@@ -12,10 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudWatchLogger = void 0;
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
-const connect_1 = require("../connect");
 const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
 const pip_services3_commons_nodex_2 = require("pip-services3-commons-nodex");
 const aws_sdk_1 = require("aws-sdk");
+const aws_sdk_2 = require("aws-sdk");
+const AwsConnectionResolver_1 = require("../connect/AwsConnectionResolver");
 /**
  * Logger that writes log messages to AWS Cloud Watch Log.
  *
@@ -73,7 +74,7 @@ class CloudWatchLogger extends pip_services3_components_nodex_1.CachedLogger {
      */
     constructor() {
         super();
-        this._connectionResolver = new connect_1.AwsConnectionResolver();
+        this._connectionResolver = new AwsConnectionResolver_1.AwsConnectionResolver();
         this._client = null; //AmazonCloudWatchLogsClient
         this._connectTimeout = 30000;
         this._group = "undefined";
@@ -142,12 +143,12 @@ class CloudWatchLogger extends pip_services3_components_nodex_1.CachedLogger {
                 return;
             }
             this._connection = yield this._connectionResolver.resolve(correlationId);
-            aws_sdk_1.config.update({
+            aws_sdk_2.config.update({
                 accessKeyId: this._connection.getAccessId(),
                 secretAccessKey: this._connection.getAccessKey(),
                 region: this._connection.getRegion()
             });
-            aws_sdk_1.config.httpOptions = {
+            aws_sdk_2.config.httpOptions = {
                 timeout: this._connectTimeout
             };
             this._client = new aws_sdk_1.CloudWatchLogs({ apiVersion: '2014-03-28' });

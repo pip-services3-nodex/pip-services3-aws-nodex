@@ -39,7 +39,6 @@ import { ConnectionParams } from 'pip-services3-components-nodex';
  *     let pin = connection.getAsNullableString("bucket");      // Result: "mybucket"   
  */
 export class AwsConnectionParams extends ConfigParams {
-
     /**
      * Creates an new instance of the connection parameters.
      * 

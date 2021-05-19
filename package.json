@@ -2,7 +2,7 @@
     "name": "pip-services3-aws-nodex",
     "version": "1.0.0",
     "author": "Conceptual Vision Consulting LLC",
-    "description": "AWS-specific components for Pip.Services in Node.js",
+    "description": "AWS-specific components for Pip.Services in Node.js / ES2017",
     "contributors": [
         {
             "name": "Sergey Seroukhov",
@@ -41,14 +41,12 @@
         "pip-services3-rpc-nodex": "^1.0.2"
     },
     "devDependencies": {
+        "@types/aws-sdk": "^2.7.0",
         "@types/chai": "^4.0.0",
         "@types/mocha": "^8.0.0",
         "@types/node": "*",
+        "aws-sdk": "*",
         "chai": "^4.3.4",
-        "mocha": "^8.3.2",
-        "@types/async": "^2.0.0",
-        "@types/aws-sdk": "^2.7.0",
-        "@types/lodash": "^4.0.0",
-        "aws-sdk": "*"
+        "mocha": "^8.3.2"
     }
 }

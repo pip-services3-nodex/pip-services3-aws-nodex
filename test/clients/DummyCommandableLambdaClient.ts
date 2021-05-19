@@ -2,7 +2,7 @@ import { FilterParams } from 'pip-services3-commons-nodex';
 import { PagingParams } from 'pip-services3-commons-nodex';
 import { DataPage } from 'pip-services3-commons-nodex';
 
-import { CommandableLambdaClient } from '../../src';
+import { CommandableLambdaClient } from '../../src/clients/CommandableLambdaClient';
 import { IDummyClient } from '../IDummyClient';
 import { Dummy } from '../Dummy';
 

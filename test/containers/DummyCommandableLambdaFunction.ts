@@ -1,5 +1,6 @@
 import { Descriptor } from 'pip-services3-commons-nodex';
-import { CommandableLambdaFunction } from '../../src';
+
+import { CommandableLambdaFunction } from '../../src/containers/CommandableLambdaFunction';
 import { DummyFactory } from '../DummyFactory';
 
 export class DummyCommandableLambdaFunction extends CommandableLambdaFunction {

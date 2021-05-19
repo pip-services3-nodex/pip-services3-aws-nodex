@@ -1,6 +1,4 @@
 "use strict";
-/** @module count */
-/** @hidden */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -14,11 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudWatchCounters = void 0;
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
-const connect_1 = require("../connect");
 const pip_services3_components_nodex_3 = require("pip-services3-components-nodex");
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
+const AwsConnectionResolver_1 = require("../connect/AwsConnectionResolver");
 const CloudWatchUnit_1 = require("./CloudWatchUnit");
 const aws_sdk_1 = require("aws-sdk");
+const aws_sdk_2 = require("aws-sdk");
 /**
  * Performance counters that periodically dumps counters to AWS Cloud Watch Metrics.
  *
@@ -77,7 +76,7 @@ class CloudWatchCounters extends pip_services3_components_nodex_2.CachedCounters
     constructor() {
         super();
         this._logger = new pip_services3_components_nodex_3.CompositeLogger();
-        this._connectionResolver = new connect_1.AwsConnectionResolver();
+        this._connectionResolver = new AwsConnectionResolver_1.AwsConnectionResolver();
         this._connectTimeout = 30000;
         this._client = null; //AmazonCloudWatchClient
         this._opened = false;
@@ -129,12 +128,12 @@ class CloudWatchCounters extends pip_services3_components_nodex_2.CachedCounters
             }
             this._opened = true;
             this._connection = yield this._connectionResolver.resolve(correlationId);
-            aws_sdk_1.config.update({
+            aws_sdk_2.config.update({
                 accessKeyId: this._connection.getAccessId(),
                 secretAccessKey: this._connection.getAccessKey(),
                 region: this._connection.getRegion()
             });
-            aws_sdk_1.config.httpOptions = {
+            aws_sdk_2.config.httpOptions = {
                 timeout: this._connectTimeout
             };
             this._client = new aws_sdk_1.CloudWatch({ apiVersion: '2010-08-01' });

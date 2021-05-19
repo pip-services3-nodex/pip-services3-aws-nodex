@@ -1,5 +1,4 @@
 /** @module log */
-/** @hidden */
 import { IReferenceable } from 'pip-services3-commons-nodex';
 import { LogLevel } from 'pip-services3-components-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';

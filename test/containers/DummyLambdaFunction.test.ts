@@ -3,7 +3,6 @@ let assert = require('chai').assert;
 import { ConfigParams } from 'pip-services3-commons-nodex';
 
 import { Dummy } from '../Dummy';
-import { DummyController } from '../DummyController';
 import { DummyLambdaFunction } from './DummyLambdaFunction';
 
 suite('DummyLambdaFunction', () => {

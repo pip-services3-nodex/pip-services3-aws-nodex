@@ -3,7 +3,8 @@ import { IReferences } from 'pip-services3-commons-nodex';
 import { Schema } from 'pip-services3-commons-nodex';
 import { Container } from 'pip-services3-container-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
-import { CounterTiming } from 'pip-services3-components-nodex';
+import { CompositeTracer } from 'pip-services3-components-nodex';
+import { InstrumentTiming } from 'pip-services3-rpc-nodex';
 /**
  * Abstract AWS Lambda function, that acts as a container to instantiate and run components
  * and expose them via external entry point.
@@ -74,6 +75,10 @@ export declare abstract class LambdaFunction extends Container {
      */
     protected _counters: CompositeCounters;
     /**
+     * The tracer.
+     */
+    protected _tracer: CompositeTracer;
+    /**
      * The dependency resolver.
      */
     protected _dependencyResolver: DependencyResolver;
@@ -112,13 +117,13 @@ export declare abstract class LambdaFunction extends Container {
     setReferences(references: IReferences): void;
     /**
      * Adds instrumentation to log calls and measure call time.
-     * It returns a CounterTiming object that is used to end the time measurement.
+     * It returns a InstrumentTiming object that is used to end the time measurement.
      *
      * @param correlationId     (optional) transaction id to trace execution through call chain.
      * @param name              a method name.
-     * @returns CounterTiming object to end the time measurement.
+     * @returns {InstrumentTiming} object to end the time measurement.
      */
-    protected instrument(correlationId: string, name: string): CounterTiming;
+    protected instrument(correlationId: string, name: string): InstrumentTiming;
     /**
      * Runs this lambda function, loads container configuration,
      * instantiate components and manage their lifecycle,

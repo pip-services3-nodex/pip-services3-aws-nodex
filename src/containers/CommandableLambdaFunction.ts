@@ -81,7 +81,7 @@ export abstract class CommandableLambdaFunction extends LambdaFunction {
                     timing.endTiming();
                     return result;
                 } catch (err) {
-                    timing.endTiming();
+                    timing.endTiming(err);
                     throw err;
                 }
             });

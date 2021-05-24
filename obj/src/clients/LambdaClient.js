@@ -16,6 +16,7 @@ const pip_services3_commons_nodex_3 = require("pip-services3-commons-nodex");
 const pip_services3_commons_nodex_4 = require("pip-services3-commons-nodex");
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
+const pip_services3_rpc_nodex_1 = require("pip-services3-rpc-nodex");
 const aws_sdk_1 = require("aws-sdk");
 const aws_sdk_2 = require("aws-sdk");
 const AwsConnectionResolver_1 = require("../connect/AwsConnectionResolver");
@@ -95,6 +96,10 @@ class LambdaClient {
          * The performance counters.
          */
         this._counters = new pip_services3_components_nodex_2.CompositeCounters();
+        /**
+         * The tracer.
+         */
+        this._tracer = new pip_services3_components_nodex_1.CompositeTracer();
     }
     /**
      * Configures component by passing configuration parameters.
@@ -121,13 +126,16 @@ class LambdaClient {
      * Adds instrumentation to log calls and measure call time.
      * It returns a CounterTiming object that is used to end the time measurement.
      *
-     * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param name              a method name.
-     * @returns {CounterTiming} object to end the time measurement.
+     * @param correlationId         (optional) transaction id to trace execution through call chain.
+     * @param name                  a method name.
+     * @returns {InstrumentTiming}  object to end the time measurement.
      */
     instrument(correlationId, name) {
         this._logger.trace(correlationId, "Executing %s method", name);
-        return this._counters.beginTiming(name + ".exec_time");
+        this._counters.incrementOne(name + ".exec_count");
+        let counterTiming = this._counters.beginTiming(name + ".exec_time");
+        let traceTiming = this._tracer.beginTrace(correlationId, name, null);
+        return new pip_services3_rpc_nodex_1.InstrumentTiming(correlationId, name, "exec", this._logger, this._counters, counterTiming, traceTiming);
     }
     /**
      * Checks if the component is opened.

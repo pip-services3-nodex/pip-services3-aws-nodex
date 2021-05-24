@@ -80,7 +80,7 @@ export class CommandableLambdaClient extends LambdaClient {
             timing.endTiming();
             return result;
         } catch (err) {
-            timing.endTiming();
+            timing.endTiming(err);
             throw err;
         }
     }

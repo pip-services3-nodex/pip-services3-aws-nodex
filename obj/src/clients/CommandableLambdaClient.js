@@ -90,7 +90,7 @@ class CommandableLambdaClient extends LambdaClient_1.LambdaClient {
                 return result;
             }
             catch (err) {
-                timing.endTiming();
+                timing.endTiming(err);
                 throw err;
             }
         });

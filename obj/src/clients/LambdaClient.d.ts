@@ -5,9 +5,9 @@ import { IReferenceable } from 'pip-services3-commons-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
 import { ConfigParams } from 'pip-services3-commons-nodex';
 import { DependencyResolver } from 'pip-services3-commons-nodex';
-import { CompositeLogger } from 'pip-services3-components-nodex';
+import { CompositeLogger, CompositeTracer } from 'pip-services3-components-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
-import { CounterTiming } from 'pip-services3-components-nodex';
+import { InstrumentTiming } from "pip-services3-rpc-nodex";
 import { AwsConnectionParams } from '../connect/AwsConnectionParams';
 import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
 /**
@@ -94,6 +94,10 @@ export declare abstract class LambdaClient implements IOpenable, IConfigurable, 
      */
     protected _counters: CompositeCounters;
     /**
+     * The tracer.
+     */
+    protected _tracer: CompositeTracer;
+    /**
      * Configures component by passing configuration parameters.
      *
      * @param config    configuration parameters to be set.
@@ -109,11 +113,11 @@ export declare abstract class LambdaClient implements IOpenable, IConfigurable, 
      * Adds instrumentation to log calls and measure call time.
      * It returns a CounterTiming object that is used to end the time measurement.
      *
-     * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param name              a method name.
-     * @returns {CounterTiming} object to end the time measurement.
+     * @param correlationId         (optional) transaction id to trace execution through call chain.
+     * @param name                  a method name.
+     * @returns {InstrumentTiming}  object to end the time measurement.
      */
-    protected instrument(correlationId: string, name: string): CounterTiming;
+    protected instrument(correlationId: string, name: string): InstrumentTiming;
     /**
      * Checks if the component is opened.
      *

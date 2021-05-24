@@ -8,15 +8,16 @@ import { IdGenerator } from 'pip-services3-commons-nodex';
 import { UnknownException } from 'pip-services3-commons-nodex';
 import { InvocationException } from 'pip-services3-commons-nodex';
 import { DependencyResolver } from 'pip-services3-commons-nodex';
-import { CompositeLogger } from 'pip-services3-components-nodex';
+import {CompositeLogger, CompositeTracer} from 'pip-services3-components-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
-import { CounterTiming } from 'pip-services3-components-nodex';
+import { InstrumentTiming } from "pip-services3-rpc-nodex";
 
 import { Lambda } from 'aws-sdk';
 import { config } from 'aws-sdk';
 
 import { AwsConnectionParams } from '../connect/AwsConnectionParams';
 import { AwsConnectionResolver } from '../connect/AwsConnectionResolver';
+
 
 /**
  * Abstract client that calls AWS Lambda Functions.
@@ -102,6 +103,10 @@ export abstract class LambdaClient implements IOpenable, IConfigurable, IReferen
      * The performance counters.
      */
     protected _counters: CompositeCounters = new CompositeCounters();
+    /**
+     * The tracer.
+     */
+    protected _tracer: CompositeTracer = new CompositeTracer();
 
     /**
      * Configures component by passing configuration parameters.
@@ -131,13 +136,18 @@ export abstract class LambdaClient implements IOpenable, IConfigurable, IReferen
      * Adds instrumentation to log calls and measure call time.
      * It returns a CounterTiming object that is used to end the time measurement.
      * 
-     * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param name              a method name.
-     * @returns {CounterTiming} object to end the time measurement.
+     * @param correlationId         (optional) transaction id to trace execution through call chain.
+     * @param name                  a method name.
+     * @returns {InstrumentTiming}  object to end the time measurement.
      */
-    protected instrument(correlationId: string, name: string): CounterTiming {
+    protected instrument(correlationId: string, name: string): InstrumentTiming {
         this._logger.trace(correlationId, "Executing %s method", name);
-        return this._counters.beginTiming(name + ".exec_time");
+        this._counters.incrementOne(name + ".exec_count");
+
+        let counterTiming = this._counters.beginTiming(name + ".exec_time");
+        let traceTiming = this._tracer.beginTrace(correlationId, name, null);
+        return new InstrumentTiming(correlationId, name, "exec",
+            this._logger, this._counters, counterTiming, traceTiming);
     }
 
     /**

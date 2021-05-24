@@ -7,6 +7,10 @@
         {
             "name": "Sergey Seroukhov",
             "email": "seroukhov@gmail.com"
+        },
+        {
+            "name": "Dmitrii Uzdemir",
+            "email": "uzdemir.dmt@gmail.com"
         }
     ],
     "main": "./obj/src/index.js",

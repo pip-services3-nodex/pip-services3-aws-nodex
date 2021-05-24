@@ -85,7 +85,7 @@ class CommandableLambdaFunction extends LambdaFunction_1.LambdaFunction {
                     return result;
                 }
                 catch (err) {
-                    timing.endTiming();
+                    timing.endTiming(err);
                     throw err;
                 }
             }));

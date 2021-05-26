@@ -16,6 +16,7 @@ const pip_services3_commons_nodex_3 = require("pip-services3-commons-nodex");
 const pip_services3_commons_nodex_4 = require("pip-services3-commons-nodex");
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 const pip_services3_components_nodex_2 = require("pip-services3-components-nodex");
+const pip_services3_components_nodex_3 = require("pip-services3-components-nodex");
 const pip_services3_rpc_nodex_1 = require("pip-services3-rpc-nodex");
 const aws_sdk_1 = require("aws-sdk");
 const aws_sdk_2 = require("aws-sdk");
@@ -95,11 +96,11 @@ class LambdaClient {
         /**
          * The performance counters.
          */
-        this._counters = new pip_services3_components_nodex_2.CompositeCounters();
+        this._counters = new pip_services3_components_nodex_3.CompositeCounters();
         /**
          * The tracer.
          */
-        this._tracer = new pip_services3_components_nodex_1.CompositeTracer();
+        this._tracer = new pip_services3_components_nodex_2.CompositeTracer();
     }
     /**
      * Configures component by passing configuration parameters.

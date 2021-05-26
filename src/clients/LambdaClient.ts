@@ -8,7 +8,8 @@ import { IdGenerator } from 'pip-services3-commons-nodex';
 import { UnknownException } from 'pip-services3-commons-nodex';
 import { InvocationException } from 'pip-services3-commons-nodex';
 import { DependencyResolver } from 'pip-services3-commons-nodex';
-import {CompositeLogger, CompositeTracer} from 'pip-services3-components-nodex';
+import { CompositeLogger } from 'pip-services3-components-nodex';
+import { CompositeTracer } from 'pip-services3-components-nodex';
 import { CompositeCounters } from 'pip-services3-components-nodex';
 import { InstrumentTiming } from "pip-services3-rpc-nodex";
 

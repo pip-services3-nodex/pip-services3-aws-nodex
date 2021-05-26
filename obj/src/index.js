@@ -17,4 +17,5 @@ __exportStar(require("./connect"), exports);
 __exportStar(require("./log"), exports);
 __exportStar(require("./count"), exports);
 __exportStar(require("./build"), exports);
+__exportStar(require("./test"), exports);
 //# sourceMappingURL=index.js.map

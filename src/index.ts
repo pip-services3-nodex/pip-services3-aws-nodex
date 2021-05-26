@@ -5,3 +5,4 @@ export * from './connect';
 export * from './log';
 export * from './count';
 export * from './build';
+export * from './test';

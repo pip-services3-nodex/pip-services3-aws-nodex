@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoggerFixture = void 0;
-let assert = require('chai').assert;
+const assert = require('chai').assert;
 const pip_services3_components_nodex_1 = require("pip-services3-components-nodex");
 function sleep(timeout) {
     return __awaiter(this, void 0, void 0, function* () {

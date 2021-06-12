@@ -1,4 +1,4 @@
-let assert = require('chai').assert;
+const assert = require('chai').assert;
 
 import { CounterType } from 'pip-services3-components-nodex';
 import { CachedCounters } from 'pip-services3-components-nodex';

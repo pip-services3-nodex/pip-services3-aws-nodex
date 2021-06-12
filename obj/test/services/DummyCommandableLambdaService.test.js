@@ -11,14 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert = require('chai').assert;
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
-const DummyCommandableLambdaFunction_1 = require("./DummyCommandableLambdaFunction");
-suite('DummyCommandableLambdaFunction', () => {
+const DummyLambdaFunction_1 = require("./DummyLambdaFunction");
+suite('DummyCommandableLambdaService', () => {
     let DUMMY1 = { id: null, key: "Key 1", content: "Content 1" };
     let DUMMY2 = { id: null, key: "Key 2", content: "Content 2" };
     let lambda;
     suiteSetup(() => __awaiter(void 0, void 0, void 0, function* () {
-        let config = pip_services3_commons_nodex_1.ConfigParams.fromTuples('logger.descriptor', 'pip-services:logger:console:default:1.0', 'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0');
-        lambda = new DummyCommandableLambdaFunction_1.DummyCommandableLambdaFunction();
+        let config = pip_services3_commons_nodex_1.ConfigParams.fromTuples('logger.descriptor', 'pip-services:logger:console:default:1.0', 'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0', 'service.descriptor', 'pip-services-dummies:service:commandable-lambda:default:1.0');
+        lambda = new DummyLambdaFunction_1.DummyLambdaFunction();
         lambda.configure(config);
         yield lambda.open(null);
     }));
@@ -28,7 +28,7 @@ suite('DummyCommandableLambdaFunction', () => {
     test('CRUD Operations', () => __awaiter(void 0, void 0, void 0, function* () {
         // Create one dummy
         let dummy1 = yield lambda.act({
-            cmd: 'create_dummy',
+            cmd: 'dummies.create_dummy',
             dummy: DUMMY1
         });
         assert.isObject(dummy1);
@@ -36,7 +36,7 @@ suite('DummyCommandableLambdaFunction', () => {
         assert.equal(dummy1.key, DUMMY1.key);
         // Create another dummy
         let dummy2 = yield lambda.act({
-            cmd: 'create_dummy',
+            cmd: 'dummies.create_dummy',
             dummy: DUMMY2
         });
         assert.isObject(dummy2);
@@ -45,7 +45,7 @@ suite('DummyCommandableLambdaFunction', () => {
         // Update the dummy
         dummy1.content = 'Updated Content 1';
         const updatedDummy1 = yield lambda.act({
-            cmd: 'update_dummy',
+            cmd: 'dummies.update_dummy',
             dummy: dummy1
         });
         assert.isObject(updatedDummy1);
@@ -55,14 +55,14 @@ suite('DummyCommandableLambdaFunction', () => {
         dummy1 = updatedDummy1;
         // Delete dummy
         yield lambda.act({
-            cmd: 'delete_dummy',
+            cmd: 'dummies.delete_dummy',
             dummy_id: dummy1.id
         });
         const dummy = yield lambda.act({
-            cmd: 'get_dummy_by_id',
+            cmd: 'dummies.get_dummy_by_id',
             dummy_id: dummy1.id
         });
         assert.isNull(dummy || null);
     }));
 });
-//# sourceMappingURL=DummyCommandableLambdaFunction.test.js.map
+//# sourceMappingURL=DummyCommandableLambdaService.test.js.map

@@ -13,24 +13,14 @@ import { LambdaFunction } from './LambdaFunction';
  * Container configuration for this Lambda function is stored in <code>"./config/config.yml"</code> file.
  * But this path can be overriden by <code>CONFIG_PATH</code> environment variable.
  * 
- * ### Configuration parameters ###
- * 
- * - dependencies:
- *     - controller:                  override for Controller dependency
- * - connections:                   
- *     - discovery_key:               (optional) a key to retrieve the connection from [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/connect.idiscovery.html IDiscovery]]
- *     - region:                      (optional) AWS region
- * - credentials:    
- *     - store_key:                   (optional) a key to retrieve the credentials from [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/auth.icredentialstore.html ICredentialStore]]
- *     - access_id:                   AWS access/client id
- *     - access_key:                  AWS access/client id
+ * Note: This component has been deprecated. Use LambdaService instead.
  * 
  * ### References ###
  * 
  * - <code>\*:logger:\*:\*:1.0</code>            (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/log.ilogger.html ILogger]] components to pass log messages
  * - <code>\*:counters:\*:\*:1.0</code>          (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/count.icounters.html ICounters]] components to pass collected measurements
- * - <code>\*:discovery:\*:\*:1.0</code>         (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/connect.idiscovery.html IDiscovery]] services to resolve connection
- * - <code>\*:credential-store:\*:\*:1.0</code>  (optional) Credential stores to resolve credentials
+ * - <code>\*:service:lambda:\*:1.0</code>       (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
+ * - <code>\*:service:commandable-lambda:\*:1.0</code> (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
  * 
  * @see [[LambdaClient]]
  * 

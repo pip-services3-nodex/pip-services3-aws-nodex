@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-let assert = require('chai').assert;
+const assert = require('chai').assert;
 const pip_services3_commons_nodex_1 = require("pip-services3-commons-nodex");
 const AwsConnectionParams_1 = require("../../src/connect/AwsConnectionParams");
 suite('AwsConnectionParams', () => {

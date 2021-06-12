@@ -1,10 +1,11 @@
 /** @module containers */
 /** @hidden */ 
-let process = require('process');
+const process = require('process');
 
 import { BadRequestException } from 'pip-services3-commons-nodex';
 import { ConfigParams } from 'pip-services3-commons-nodex';
 import { DependencyResolver } from 'pip-services3-commons-nodex';
+import { Descriptor } from 'pip-services3-commons-nodex';
 import { IReferences } from 'pip-services3-commons-nodex';
 import { Schema } from 'pip-services3-commons-nodex';
 import { UnknownException } from 'pip-services3-commons-nodex';
@@ -13,6 +14,8 @@ import { CompositeCounters } from 'pip-services3-components-nodex';
 import { ConsoleLogger } from 'pip-services3-components-nodex';
 import { CompositeTracer } from 'pip-services3-components-nodex';
 import { InstrumentTiming } from 'pip-services3-rpc-nodex';
+
+import { ILambdaService } from '../services/ILambdaService';
 
 /**
  * Abstract AWS Lambda function, that acts as a container to instantiate and run components
@@ -24,52 +27,20 @@ import { InstrumentTiming } from 'pip-services3-rpc-nodex';
  * Container configuration for this Lambda function is stored in <code>"./config/config.yml"</code> file.
  * But this path can be overriden by <code>CONFIG_PATH</code> environment variable.
  * 
- * ### Configuration parameters ###
- * 
- * - dependencies:
- *     - controller:                  override for Controller dependency
- * - connections:                   
- *     - discovery_key:               (optional) a key to retrieve the connection from [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/connect.idiscovery.html IDiscovery]]
- *     - region:                      (optional) AWS region
- * - credentials:    
- *     - store_key:                   (optional) a key to retrieve the credentials from [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/auth.icredentialstore.html ICredentialStore]]
- *     - access_id:                   AWS access/client id
- *     - access_key:                  AWS access/client id
- * 
  * ### References ###
  * 
  * - <code>\*:logger:\*:\*:1.0</code>            (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/log.ilogger.html ILogger]] components to pass log messages
  * - <code>\*:counters:\*:\*:1.0</code>          (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/count.icounters.html ICounters]] components to pass collected measurements
- * - <code>\*:discovery:\*:\*:1.0</code>         (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/connect.idiscovery.html IDiscovery]] services to resolve connection
- * - <code>\*:credential-store:\*:\*:1.0</code>  (optional) Credential stores to resolve credentials
+ * - <code>\*:service:lambda:\*:1.0</code>       (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
+ * - <code>\*:service:commandable-lambda:\*:1.0</code> (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
  * 
  * @see [[LambdaClient]]
  * 
  * ### Example ###
  * 
  *     class MyLambdaFunction extends LambdaFunction {
- *         private _controller: IMyController;
- *         ...
  *         public constructor() {
  *             base("mygroup", "MyGroup lambda function");
- *             this._dependencyResolver.put(
- *                 "controller",
- *                 new Descriptor("mygroup","controller","*","*","1.0")
- *             );
- *         }
- *      
- *         public setReferences(references: IReferences): void {
- *             base.setReferences(references);
- *             this._controller = this._dependencyResolver.getRequired<IMyController>("controller");
- *         }
- *      
- *         public register(): void {
- *             registerAction("get_mydata", null, params => Promise<any> {
- *                 let correlationId = params.correlation_id;
- *                 let id = params.id;
- *                 return this._controller.getMyData(correlationId, id);
- *             });
- *             ...
  *         }
  *     }
  * 
@@ -114,6 +85,7 @@ export abstract class LambdaFunction extends Container {
         super(name, description);
 
         this._logger = new ConsoleLogger();
+        this._dependencyResolver
     }
 
     private getConfigPath(): string {
@@ -161,8 +133,23 @@ export abstract class LambdaFunction extends Container {
     }
 
     /**
+	 * Opens the component.
+	 * 
+	 * @param correlationId 	(optional) transaction id to trace execution through call chain.
+     */
+     public async open(correlationId: string): Promise<void> {
+         if (this.isOpen()) return;
+
+         await super.open(correlationId);
+         this.registerServices();
+     }
+
+
+    /**
      * Adds instrumentation to log calls and measure call time.
      * It returns a InstrumentTiming object that is used to end the time measurement.
+     * 
+     * Note: This method has been deprecated. Use LambdaService instead.
      * 
      * @param correlationId     (optional) transaction id to trace execution through call chain.
      * @param name              a method name.
@@ -199,13 +186,39 @@ export abstract class LambdaFunction extends Container {
     /**
      * Registers all actions in this lambda function.
      * 
-     * This method is called by the service and must be overriden
-     * in child classes.
+     * Note: Overloading of this method has been deprecated. Use LambdaService instead.
      */
-    protected abstract register(): void;
+    protected register(): void {}
+
+    /**
+     * Registers all lambda services in the container.
+     */
+    protected registerServices(): void {
+        // Extract regular and commandable Lambda services from references
+        let services = this._references.getOptional<ILambdaService>(
+            new Descriptor("*", "service", "lambda", "*", "*")
+        );
+        let cmdServices = this._references.getOptional<ILambdaService>(
+            new Descriptor("*", "service", "commandable-lambda", "*", "*")
+        );
+        services.push(...cmdServices);
+
+        // Register actions defined in those services
+        for (let service of services) {
+            // Check if the service implements required interface
+            if (typeof service.getActions !== "function") continue;
+
+            let actions = service.getActions();
+            for (let action of actions) {
+                this.registerAction(action.cmd, action.schema, action.action);
+            }
+        }
+    }
 
     /**
      * Registers an action in this lambda function.
+     * 
+     * Note: This method has been deprecated. Use LambdaService instead.
      * 
      * @param cmd           a action/command name.
      * @param schema        a validation schema to validate received parameters.
@@ -243,7 +256,15 @@ export abstract class LambdaFunction extends Container {
         this._actions[cmd] = actionCurl;
     }
 
-    private async execute(event: any): Promise<any> {
+    /**
+     * Executes this AWS Lambda function and returns the result.
+     * This method can be overloaded in child classes
+     * if they need to change the default behavior
+     * 
+     * @params event the event parameters (or function arguments)
+     * @returns the result of the function execution.
+     */
+    protected async execute(event: any): Promise<any> {
         let cmd: string = event.cmd;
         let correlationId = event.correlation_id;
         

@@ -1,6 +1,6 @@
 {
     "name": "pip-services3-aws-nodex",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "author": "Conceptual Vision Consulting LLC",
     "description": "AWS-specific components for Pip.Services in Node.js / ES2017",
     "contributors": [

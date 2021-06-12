@@ -1,4 +1,4 @@
-let assert = require('chai').assert;
+const assert = require('chai').assert;
 
 import { LogLevel } from 'pip-services3-components-nodex';
 import { CachedLogger } from 'pip-services3-components-nodex';

@@ -5,7 +5,7 @@ import { ConfigParams } from 'pip-services3-commons-nodex';
 import { Dummy } from '../Dummy';
 import { DummyLambdaFunction } from './DummyLambdaFunction';
 
-suite('DummyLambdaFunction', () => {
+suite('DummyCommandableLambdaService', () => {
     let DUMMY1: Dummy = { id: null, key: "Key 1", content: "Content 1" };
     let DUMMY2: Dummy = { id: null, key: "Key 2", content: "Content 2" };
 
@@ -14,7 +14,8 @@ suite('DummyLambdaFunction', () => {
     suiteSetup(async () => {
         let config = ConfigParams.fromTuples(
             'logger.descriptor', 'pip-services:logger:console:default:1.0',
-            'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0'
+            'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0',
+            'service.descriptor', 'pip-services-dummies:service:commandable-lambda:default:1.0'
         );
 
         lambda = new DummyLambdaFunction();
@@ -30,7 +31,7 @@ suite('DummyLambdaFunction', () => {
 
         // Create one dummy
         let dummy1 = await lambda.act({
-                cmd: 'create_dummy',
+                cmd: 'dummies.create_dummy',
                 dummy: DUMMY1
         });
         assert.isObject(dummy1);
@@ -39,7 +40,7 @@ suite('DummyLambdaFunction', () => {
 
         // Create another dummy
         let dummy2 = await lambda.act({
-                cmd: 'create_dummy',
+                cmd: 'dummies.create_dummy',
                 dummy: DUMMY2
         });
         assert.isObject(dummy2);
@@ -49,7 +50,7 @@ suite('DummyLambdaFunction', () => {
         // Update the dummy
         dummy1.content = 'Updated Content 1'
         const updatedDummy1 = await lambda.act({
-                cmd: 'update_dummy',
+                cmd: 'dummies.update_dummy',
                 dummy: dummy1
         });
         assert.isObject(updatedDummy1);
@@ -60,12 +61,12 @@ suite('DummyLambdaFunction', () => {
 
         // Delete dummy
         await lambda.act({
-                cmd: 'delete_dummy',
+                cmd: 'dummies.delete_dummy',
                 dummy_id: dummy1.id
         });
 
         const dummy = await lambda.act({
-                cmd: 'get_dummy_by_id',
+                cmd: 'dummies.get_dummy_by_id',
                 dummy_id: dummy1.id
         });
         assert.isNull(dummy || null);

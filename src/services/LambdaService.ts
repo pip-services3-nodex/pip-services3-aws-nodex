@@ -323,7 +323,7 @@ export abstract class LambdaService implements ILambdaService, IOpenable, IConfi
             );
         }
         
-        const action: any = this._actions.find(a => a.cmd == cmd);
+        const action: LambdaAction = this._actions.find(a => a.cmd == cmd);
         if (action == null) {
             throw new BadRequestException(
                 correlationId, 
@@ -333,7 +333,7 @@ export abstract class LambdaService implements ILambdaService, IOpenable, IConfi
             .withDetails('command', cmd);
         }
 
-        return action(event);
+        return action.action(params);
     }
 
 }

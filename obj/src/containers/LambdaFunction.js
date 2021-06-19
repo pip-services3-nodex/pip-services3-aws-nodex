@@ -221,6 +221,9 @@ class LambdaFunction extends pip_services3_container_nodex_1.Container {
         if (typeof action != "function") {
             throw new pip_services3_commons_nodex_5.UnknownException(null, 'ACTION_NOT_FUNCTION', 'Action is not a function');
         }
+        if (this._actions[cmd]) {
+            throw new pip_services3_commons_nodex_5.UnknownException(null, 'DUPLICATED_ACTION', `"${cmd}" action already exists`);
+        }
         // Hack!!! Wrapping action to preserve prototyping context
         const actionCurl = (params) => {
             // Perform validation

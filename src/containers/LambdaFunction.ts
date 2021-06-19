@@ -238,6 +238,10 @@ export abstract class LambdaFunction extends Container {
             throw new UnknownException(null, 'ACTION_NOT_FUNCTION', 'Action is not a function');
         }
 
+        if (this._actions.hasOwnProperty(cmd)) {
+            throw new UnknownException(null, 'DUPLICATED_ACTION', `"${cmd}" action already exists`);
+        }
+
         // Hack!!! Wrapping action to preserve prototyping context
         const actionCurl = (params) => {
             // Perform validation

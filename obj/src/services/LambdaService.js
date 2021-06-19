@@ -286,7 +286,7 @@ class LambdaService {
                 throw new pip_services3_commons_nodex_2.BadRequestException(correlationId, 'NO_ACTION', 'Action ' + cmd + ' was not found')
                     .withDetails('command', cmd);
             }
-            return action(event);
+            return action.action(params);
         });
     }
 }

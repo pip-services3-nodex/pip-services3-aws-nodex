@@ -83,9 +83,10 @@ class CommandableLambdaClient extends LambdaClient_1.LambdaClient {
      */
     callCommand(cmd, correlationId, params) {
         return __awaiter(this, void 0, void 0, function* () {
-            const timing = this.instrument(correlationId, this._name + '.' + cmd);
+            let command = this._name + '.' + cmd;
+            const timing = this.instrument(correlationId, command);
             try {
-                const result = yield this.call(cmd, correlationId, params);
+                const result = yield this.call(command, correlationId, params);
                 timing.endTiming();
                 return result;
             }

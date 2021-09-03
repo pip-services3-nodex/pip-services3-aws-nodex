@@ -228,7 +228,7 @@ export abstract class LambdaClient implements IOpenable, IConfigurable, IReferen
         }                        
 
         try {
-            const data = await this._lambda.invokeAsync(params);
+            const data = await this._lambda.invoke(params).promise();
 
             let result: any = data.Payload;
 

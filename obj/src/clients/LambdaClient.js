@@ -209,7 +209,7 @@ class LambdaClient {
                 Payload: JSON.stringify(args)
             };
             try {
-                const data = yield this._lambda.invokeAsync(params);
+                const data = yield this._lambda.invoke(params).promise();
                 let result = data.Payload;
                 if (typeof result === "string") {
                     try {

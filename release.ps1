@@ -22,8 +22,8 @@ if ($env:NPM_USER -ne $null -and $env:NPM_PASS -ne $null -and $env:NPM_EMAIL -ne
 
 # Automatically login to npm registry by putting token to .npmrc
 if ($env:NPM_TOKEN -ne $null) {
-    Write-Host "Creating and using project scope .npmrc"
-    Set-Content -Path ".npmrc" -Value "//registry.npmjs.org/:_authToken=${NPM_TOKEN}"
+    Write-Host "Creating project scope .npmrc"
+    Set-Content -Path ".npmrc" -Value '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'
 }
 
 Write-Host "Getting $($package.name) versions from npm registry..."

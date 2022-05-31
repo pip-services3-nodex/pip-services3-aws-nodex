@@ -9,13 +9,13 @@ $package = Get-Content -Path "package.json" | ConvertFrom-Json
 
 # Verify component and package version
 if ($component.version -ne $package.version) {
-    throw "Versions in component.json and package.json do not match"
+    Write-Error "Versions in component.json and package.json do not match"
 }
 
 # Automatically login to npm registry by npm-cli-login
-if (-not [string]::IsNullOrEmpty($env:NPM_USER) `
-    -and -not [string]::IsNullOrEmpty($env:NPM_PASS) `
-    -and -not [string]::IsNullOrEmpty($env:NPM_EMAIL)) {
+if (-not [string]::IsNullOrEmpty($env:NPM_USER) -and`
+    -not [string]::IsNullOrEmpty($env:NPM_PASS) -and`
+    -not [string]::IsNullOrEmpty($env:NPM_EMAIL)) {
     if (npm whoami -ne $env:NPM_USER) {
         Write-Host "Logging to npmjs registry by npm-cli-login..."
         npm-cli-login

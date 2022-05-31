@@ -30,6 +30,8 @@ Write-Host "Getting $($package.name) versions from npm registry..."
 
 # Check if version exist on npmjs
 $npmjsPackageVersions = npm view $package.name versions
+Write-Host $npmjsPackageVersions
+Write-Host $package.version
 
 if ($npmjsPackageVersions -ne $null -and $npmjsPackageVersions.Contains($package.version)) {
     Write-Host "Package already exists on npmjs, publish skipped."

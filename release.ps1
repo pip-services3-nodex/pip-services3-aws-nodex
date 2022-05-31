@@ -13,12 +13,12 @@ if ($component.version -ne $package.version) {
 }
 
 # Automatically login to npm registry by npm-cli-login
-if ($env:NPM_USER -ne $null -and $env:NPM_PASS -ne $null -and $env:NPM_EMAIL -ne $null) {
-    if (npm whoami -ne $env:NPM_USER) {
-        Write-Host "Logging to npmjs registry by npm-cli-login..."
-        npm-cli-login
-    }
-} 
+# if ($env:NPM_USER -ne $null -and $env:NPM_PASS -ne $null -and $env:NPM_EMAIL -ne $null) {
+#     if (npm whoami -ne $env:NPM_USER) {
+#         Write-Host "Logging to npmjs registry by npm-cli-login..."
+#         npm-cli-login
+#     }
+# } 
 
 # Automatically login to npm registry by putting token to .npmrc
 if ($env:NPM_TOKEN -ne $null) {
@@ -31,9 +31,13 @@ Write-Host "Getting $($package.name) versions from npm registry..."
 # Check if version exist on npmjs
 $npmjsPackageVersions = npm view $package.name versions
 Write-Host $npmjsPackageVersions
-Write-Host $package.version
+Write-Host $package.version.ToString()
+Write-Host $($npmjsPackageVersions -ne $null)
+Write-Host $($npmjsPackageVersions.Contains($package.version.ToString()))
+Write-Host $PSVersionTable.PSVersion
 
-if ($npmjsPackageVersions -ne $null -and $npmjsPackageVersions.Contains($package.version)) {
+
+if ($npmjsPackageVersions -ne $null -and $npmjsPackageVersions.Contains($package.version.ToString())) {
     Write-Host "Package already exists on npmjs, publish skipped."
 } else {
     # Publish to npm repository

@@ -6,3 +6,4 @@
 /config/config.yml
 /data/dummies.json
 package-lock.json
+.npmrc

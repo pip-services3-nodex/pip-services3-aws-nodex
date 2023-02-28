@@ -15,7 +15,7 @@ suite('DummyLambdaService', () => {
         let config = ConfigParams.fromTuples(
             'logger.descriptor', 'pip-services:logger:console:default:1.0',
             'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0',
-            'service.descriptor', 'pip-services-dummies:service:lambda:default:1.0'
+            'service.descriptor', 'pip-services-dummies:service:awslambda:default:1.0'
         );
 
         lambda = new DummyLambdaFunction();

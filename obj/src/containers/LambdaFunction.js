@@ -37,8 +37,8 @@ const pip_services3_rpc_nodex_1 = require("pip-services3-rpc-nodex");
  *
  * - <code>\*:logger:\*:\*:1.0</code>            (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/log.ilogger.html ILogger]] components to pass log messages
  * - <code>\*:counters:\*:\*:1.0</code>          (optional) [[https://pip-services3-nodex.github.io/pip-services3-components-nodex/interfaces/count.icounters.html ICounters]] components to pass collected measurements
- * - <code>\*:service:lambda:\*:1.0</code>       (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
- * - <code>\*:service:commandable-lambda:\*:1.0</code> (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
+ * - <code>\*:service:awslambda:\*:1.0</code>       (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
+ * - <code>\*:service:commandable-awslambda:\*:1.0</code> (optional) [[https://pip-services3-nodex.github.io/pip-services3-aws-nodex/interfaces/services.ilambdaservice.html ILambdaService]] services to handle action requests
  *
  * @see [[LambdaClient]]
  *
@@ -188,8 +188,8 @@ class LambdaFunction extends pip_services3_container_nodex_1.Container {
      */
     registerServices() {
         // Extract regular and commandable Lambda services from references
-        let services = this._references.getOptional(new pip_services3_commons_nodex_4.Descriptor("*", "service", "lambda", "*", "*"));
-        let cmdServices = this._references.getOptional(new pip_services3_commons_nodex_4.Descriptor("*", "service", "commandable-lambda", "*", "*"));
+        let services = this._references.getOptional(new pip_services3_commons_nodex_4.Descriptor("*", "service", "awslambda", "*", "*"));
+        let cmdServices = this._references.getOptional(new pip_services3_commons_nodex_4.Descriptor("*", "service", "commandable-awslambda", "*", "*"));
         services.push(...cmdServices);
         // Register actions defined in those services
         for (let service of services) {

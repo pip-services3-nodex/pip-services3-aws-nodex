@@ -72,7 +72,7 @@ import { ILambdaService } from './ILambdaService';
  *     console.log("The GRPC service is running on port 8080");
  */
 export declare abstract class LambdaService implements ILambdaService, IOpenable, IConfigurable, IReferenceable {
-    private _name;
+    protected _name: string;
     private _actions;
     private _interceptors;
     private _opened;

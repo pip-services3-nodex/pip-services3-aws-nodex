@@ -17,7 +17,7 @@ suite('DummyCommandableLambdaService', () => {
     let DUMMY2 = { id: null, key: "Key 2", content: "Content 2" };
     let lambda;
     suiteSetup(() => __awaiter(void 0, void 0, void 0, function* () {
-        let config = pip_services3_commons_nodex_1.ConfigParams.fromTuples('logger.descriptor', 'pip-services:logger:console:default:1.0', 'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0', 'service.descriptor', 'pip-services-dummies:service:commandable-lambda:default:1.0');
+        let config = pip_services3_commons_nodex_1.ConfigParams.fromTuples('logger.descriptor', 'pip-services:logger:console:default:1.0', 'controller.descriptor', 'pip-services-dummies:controller:default:default:1.0', 'service.descriptor', 'pip-services-dummies:service:commandable-awslambda:default:1.0');
         lambda = new DummyLambdaFunction_1.DummyLambdaFunction();
         lambda.configure(config);
         yield lambda.open(null);

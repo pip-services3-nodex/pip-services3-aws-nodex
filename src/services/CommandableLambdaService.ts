@@ -83,11 +83,11 @@ export abstract class CommandableLambdaService extends LambdaService {
 
                 let timing = this.instrument(correlationId, name);
                 try {
-                    return command.execute(correlationId, args);
+                    let res = command.execute(correlationId, args);
+                    timing.endTiming();
+                    return res;
                 } catch (ex) {
                     timing.endFailure(ex);
-                } finally {
-                    timing.endTiming();
                 }
             });
         }

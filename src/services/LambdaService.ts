@@ -78,7 +78,7 @@ import { ILambdaService } from './ILambdaService';
 export abstract class LambdaService implements ILambdaService, IOpenable, IConfigurable,
     IReferenceable {
 
-    private _name: string;
+    protected _name: string;
     private _actions: LambdaAction[] = [];
     private _interceptors: any[] = [];
     private _opened: boolean;

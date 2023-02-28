@@ -17,6 +17,6 @@ class DummyFactory extends pip_services3_components_nodex_1.Factory {
 exports.DummyFactory = DummyFactory;
 DummyFactory.Descriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "factory", "default", "default", "1.0");
 DummyFactory.ControllerDescriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "controller", "default", "*", "1.0");
-DummyFactory.LambdaServiceDescriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "service", "lambda", "*", "1.0");
-DummyFactory.CmdLambdaServiceDescriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "service", "commandable-lambda", "*", "1.0");
+DummyFactory.LambdaServiceDescriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "service", "awslambda", "*", "1.0");
+DummyFactory.CmdLambdaServiceDescriptor = new pip_services3_commons_nodex_1.Descriptor("pip-services-dummies", "service", "commandable-awslambda", "*", "1.0");
 //# sourceMappingURL=DummyFactory.js.map
